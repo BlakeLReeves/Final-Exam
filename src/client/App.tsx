@@ -8,7 +8,7 @@ export default class IApp extends React.Component<IAppProps, IAppState> {
 
     render () {
         return (
-            <Route>
+            <Router>
                 <>
                     <Navbar />
                     <div className="container">
@@ -17,7 +17,7 @@ export default class IApp extends React.Component<IAppProps, IAppState> {
                         </Switch>
                     </div>
                 </>
-            </Route>
+            </Router>
         )
     }
 }
