@@ -1,8 +1,10 @@
 import * as mysql from 'mysql';
 import config from '../config';
-import { resolve } from 'url';
 
-
+import Books from './queries/books';
+import Categories from './queries/categories';
+import Tokens from './queries/tokens';
+import Users from './queries/users';
 
 export const pool = mysql.createPool(config.mysql);
 
@@ -16,5 +18,8 @@ export const Query = (query: string, values?: Array<string | number>) => {
 };
 
 export default {
-    
+    Books,
+    Categories,
+    Tokens,
+    Users
 }
