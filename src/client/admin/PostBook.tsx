@@ -2,9 +2,9 @@ import * as React from 'react';
 import { json, User } from '../utils/api';
 import { RouteComponentProps } from 'react-router';
 
-export interface IUpdateBookProps extends RouteComponentProps<{ id: string }> { }
+export interface IPostBookProps extends RouteComponentProps<{ id: string }> { }
 
-export interface IUpdateBookState {
+export interface IPostBookState {
     title: string;
     author: string;
     price: number;
@@ -13,8 +13,8 @@ export interface IUpdateBookState {
     selectedCategoryId: string;
 }
 
-export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpdateBookState> {
-    constructor(props: IUpdateBookProps) {
+export default class IPostBook extends React.Component<IPostBookProps, IPostBookState> {
+    constructor(props: IPostBookProps) {
         super(props);
         this.state = {
             title: null,
@@ -25,7 +25,7 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
             selectedCategoryId: null
         };
 
-        this.handleEdit = this.handleEdit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectCategoryChange = this.handleSelectCategoryChange.bind(this);
 
     }
@@ -34,17 +34,8 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
         if(!User || User.userid === null || User.role !== 'admin') {
             this.props.history.replace('/login');
         }
-        let id = this.props.match.params.id;
 
         try {
-            let book = await json(`/api/books/${id}`);
-            this.setState({
-                title: book.title,
-                author: book.author,
-                price: book.price,
-                categoryid: book.categoryid
-            });
-
             let categories = await json('/api/categories');
             this.setState({ categories });
         } catch (e) {
@@ -52,11 +43,10 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
         }
     }
 
-    async handleEdit(e: React.FormEvent<HTMLFormElement>) {
+    async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        let id = this.props.match.params.id;
-        let data = {
+        let book = {
             title: this.state.title,
             author: this.state.author,
             price: this.state.price,
@@ -65,7 +55,7 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
 
         try {
 
-            let result = await json(`/api/books/${id}`, 'PUT', data);
+            let result = await json(`/api/books`, 'POST', book);
             if (result) {
                 this.setState({
                     title: '',
@@ -98,7 +88,7 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
         return (
             <div className="row">
                 <div className="col-md-12">
-                    <form onSubmit={(e) => this.handleEdit(e)} className="form-group m-2">
+                    <form onSubmit={(e) => this.handleSubmit(e)} className="form-group m-2">
                         <label>Title:</label>
                         <input
                             type="text"
@@ -132,7 +122,7 @@ export default class IUpdateBook extends React.Component<IUpdateBookProps, IUpda
                             {this.renderCategories()}
                         </select>
                         <div className="d-flex">
-                            <button className="btn btn-info mt-2">Save Changes</button>
+                            <button className="btn btn-info mt-2">Post Book</button>
                         </div>
                     </form>
                 </div>
