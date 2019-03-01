@@ -60,7 +60,7 @@ export default class IViewBook extends React.Component<IViewBookProps, IViewBook
                             <div className="card-subtitle">Author: {this.state.book.author}</div>
                             <div className="text">Price ${this.state.book.price}</div>
                             <div className="card-footer border border-dark border-bottom-0 border-left-0 border-right-0">Category: {this.state.book.name}</div>
-                            <div className="d-flex justify-content-between align-items-center">
+                            <div className="d-flex justify-content-between">
                                 <Link to={`/books/${this.props.match.params.id}/update`} className="btn btn-outline-info mt-2">Edit</Link>
                                 <button onClick={this.handleDelete} className="btn btn-danger mt-2">Delete</button>
                             </div>
